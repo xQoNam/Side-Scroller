@@ -27,7 +27,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetButtonDown("Jump") && isGrounded)
+        moveInput = Input.GetAxisRaw("Horizontal");
+        if (Input.GetButtonDown("Jump") && isGrounded)
         {
             jumpRequest = true;
         }
@@ -35,7 +36,6 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
-        moveInput = Input.GetAxisRaw("Horizontal");
         rb.velocity = new Vector2(moveInput * speed * Time.deltaTime, rb.velocity.y);
         if (!facingRight && moveInput > 0)
         {
