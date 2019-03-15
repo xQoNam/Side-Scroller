@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform m_CeilingCheck;                          // A position marking where to check for ceilings
     [SerializeField] private Collider2D m_CrouchDisableCollider;                // A collider that will be disabled when crouching
 
+    private float score = 0;
     const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
     private bool m_Grounded;            // Whether or not the player is grounded.
     const float k_CeilingRadius = .2f; // Radius of the overlap circle to determine if the player can stand up
@@ -135,7 +136,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
     private void Flip()
     {
         // Switch the way the player is labelled as facing.
@@ -145,5 +145,16 @@ public class PlayerController : MonoBehaviour
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+      if(collision.CompareTag("collectible"))
+        {
+            Destroy(collision.gameObject);
+            score++;
+            Debug.Log(score);
+        }
+            
+
     }
 }

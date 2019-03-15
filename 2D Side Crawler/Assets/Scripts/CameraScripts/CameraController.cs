@@ -10,10 +10,12 @@ public class CameraController : MonoBehaviour
     public Vector3 offset;
     private Vector3 velocity = Vector3.zero;
     float leftLimitX, rightLimitX, downLimitY, upLimitY;
+    private Camera camera;
 
     private void Awake()
     {
-        setCameraLimits();
+        camera = GetComponent<Camera>();
+        SetCameraLimits();
     }
     // Update is called once per frame
     void FixedUpdate()
@@ -24,11 +26,14 @@ public class CameraController : MonoBehaviour
         transform.position = smoothedPosition;
     }
 
-    void setCameraLimits()
+    void SetCameraLimits()
     {
-        leftLimitX = limiters[0].transform.position.x + 15;
-        rightLimitX = limiters[1].transform.position.x - 15;
-        downLimitY = limiters[2].transform.position.y + 8.5f;
-        upLimitY = limiters[3].transform.position.y - 8.5f;
+        float verticalDistance = camera.orthographicSize;
+        float horizontalDistance = verticalDistance * Screen.width / Screen.height;
+
+        leftLimitX = limiters[0].transform.position.x + horizontalDistance;
+        rightLimitX = limiters[1].transform.position.x - horizontalDistance;
+        downLimitY = limiters[2].transform.position.y + verticalDistance;
+        upLimitY = limiters[3].transform.position.y - verticalDistance;
     }
 }
