@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    #pragma warning disable 0649
+
     private PlayerController controller;
     private Animator anim;
     float horizontalMove = 0f;

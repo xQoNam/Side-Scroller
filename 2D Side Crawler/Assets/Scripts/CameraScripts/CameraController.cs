@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public Transform target;
+    #pragma warning disable 0649
+
+    [SerializeField]private Transform target;
     [SerializeField]private GameObject[] limiters;
     public float lerpSpeed;
     public Vector3 offset;
     private Vector3 velocity = Vector3.zero;
     float leftLimitX, rightLimitX, downLimitY, upLimitY;
-    private Camera camera;
 
     private void Awake()
     {
-        camera = GetComponent<Camera>();
         SetCameraLimits();
     }
     // Update is called once per frame
@@ -28,7 +28,7 @@ public class CameraController : MonoBehaviour
 
     void SetCameraLimits()
     {
-        float verticalDistance = camera.orthographicSize;
+        float verticalDistance = Camera.main.orthographicSize;
         float horizontalDistance = verticalDistance * Screen.width / Screen.height;
 
         leftLimitX = limiters[0].transform.position.x + horizontalDistance;
