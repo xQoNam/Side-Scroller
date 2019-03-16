@@ -201,6 +201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponDamage: 20
+  shouldKnockOut: 1
 --- !u!1 &1311883051 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8076339915090585910, guid: 39e78db02946c3043b4de28e922e7370,
@@ -9620,6 +9621,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TileSpriteArray.Array.data[44].m_RefCount
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 128945543288533244, guid: 44311cde65a18ea4a8564952e6c284b7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 128945543572273723, guid: 44311cde65a18ea4a8564952e6c284b7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44311cde65a18ea4a8564952e6c284b7, type: 3}

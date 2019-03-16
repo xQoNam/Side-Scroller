@@ -13,13 +13,12 @@ public class health : MonoBehaviour
     }
 
     //its function for taking damage and healing with potions etc.
-    public void ChangeHealth(float value)
+    public void ChangeHealth(float value, bool moveAway)
     {
         healthPoints -= value;
-        bool moveAway = true; //Dont forget to change this
         if(moveAway)
         {
-            rb.velocity = new Vector3(0, 10, 0);
+            rb.velocity = new Vector3(-5, 10, 0);
         }
     }
 }
