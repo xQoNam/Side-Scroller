@@ -16,6 +16,7 @@ public class health : MonoBehaviour
     public void ChangeHealth(float value, bool moveAway)
     {
         healthPoints -= value;
+        Debug.Log(healthPoints);
         if(moveAway)
         {
             rb.velocity = new Vector3(-5, 10, 0);
