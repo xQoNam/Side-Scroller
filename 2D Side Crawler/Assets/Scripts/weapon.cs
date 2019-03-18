@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class weapon : MonoBehaviour
 {
-    enum Type{ Sword, Bow, Spikes, Spear } //types of weapons
+#pragma warning disable 0649
+    enum Type { Sword, Bow, Spikes, Spear } //types of weapons
     [SerializeField] Type weaponType;
     [SerializeField] private float weaponDamage = 20f;
     [SerializeField] private bool shouldKnockOut = false; //if this weapon can move enemies or player change it to true
