@@ -4,28 +4,30 @@ using UnityEngine;
 
 public class weapon : MonoBehaviour
 {
-    enum Type{ Sword, Bow, Spikes, Spear }
+    enum Type{ Sword, Bow, Spikes, Spear } //types of weapons
     [SerializeField] Type weaponType;
     [SerializeField] private float weaponDamage = 20f;
-    [SerializeField] private bool shouldKnockOut = false;
+    [SerializeField] private bool shouldKnockOut = false; //if this weapon can move enemies or player change it to true
     [SerializeField] private float attackRange;
-    [SerializeField] private float startAttackSpeed;
+    [SerializeField] private float startAttackSpeed; //weapon's attack speed
     Vector3 attackPosition;
     private float attackSpeed = 0;
     [SerializeField] LayerMask whatIsEnemies;
 
-    private void Start()
+    private void Awake()
     {
         attackPosition = GetComponent<Transform>().transform.position;
-        Debug.Log(attackPosition);
+        ChoseWeaponType();
     }
+    
     private void Update()
     {
+        attackPosition = GetComponent<Transform>().transform.position;
         DetectEnemiesInRange();
     }
     void DetectEnemiesInRange()
     {
-        if(attackSpeed <= 0)
+        if(attackSpeed <= 0) //if attack speed has no cooldown
         {
             if(Input.GetMouseButtonDown(0))
             {
@@ -42,10 +44,7 @@ public class weapon : MonoBehaviour
             attackSpeed -= Time.deltaTime;
         }
     }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        collision.gameObject.GetComponent<health>().ChangeHealth(weaponDamage, shouldKnockOut);
-    }
+    
     //chose range for current type of weapon
     Collider2D[] EnemiesToDamage()
     {
@@ -56,25 +55,45 @@ public class weapon : MonoBehaviour
         }
         else if(weaponType == Type.Spear)
         {
-            Collider2D[] enemiesToDamage = Physics2D.OverlapBoxAll(attackPosition, new Vector2(attackRange, 0.1f), 3f);
+            Collider2D[] enemiesToDamage = Physics2D.OverlapBoxAll(attackPosition, new Vector2(attackRange, 0.1f), 3f, whatIsEnemies);
             return enemiesToDamage;
         }
         else
         return Physics2D.OverlapCircleAll(attackPosition, 0, whatIsEnemies);
     }
+
+    void ChoseWeaponType()
+    {
+        switch(weaponType)
+        {
+            case Type.Spear:
+                attackRange = 1.35f;
+                break;
+        }
+            
+    }
    
     //Draw weapon's range
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        switch(weaponType)
+        if(weaponType!=Type.Spikes)
         {
-            case Type.Sword:
-                Gizmos.DrawWireSphere(attackPosition, attackRange);
-                break;
-            case Type.Spear:
-                Gizmos.DrawWireCube(attackPosition, new Vector3(attackRange, 0.1f, 0));
-                break;
+            Gizmos.color = Color.red;
+            switch (weaponType)
+            {
+                case Type.Sword:
+                    Gizmos.DrawWireSphere(attackPosition, attackRange);
+                    break;
+                case Type.Spear:
+                    Gizmos.DrawWireCube(attackPosition, new Vector3(attackRange, 0.1f, 0));
+                    break;
+            }
         }
+        
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (weaponType == Type.Spikes)
+            collision.gameObject.GetComponent<health>().ChangeHealth(weaponDamage, shouldKnockOut);
     }
 }

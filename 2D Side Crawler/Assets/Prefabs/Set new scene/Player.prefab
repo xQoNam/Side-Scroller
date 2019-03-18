@@ -293,11 +293,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37c878dde62958947a9afc1f4646b62d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponType: 0
+  weaponType: 3
   weaponDamage: 20
   shouldKnockOut: 0
   attackRange: 0.75
   startAttackSpeed: -1.41
+  weaponShift: {x: 0, y: 0, z: 0}
   whatIsEnemies:
     serializedVersion: 2
     m_Bits: 0
