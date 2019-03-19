@@ -9,7 +9,10 @@ public class PlayerMovement : MonoBehaviour
     private PlayerController controller;
     private Animator anim;
     float horizontalMove = 0f;
+    float verticalMove = 0f;
     public float runSpeed = 40f;
+    public float climbSpeed = 200f;
+    bool climb = false;
     bool jump = false;
     bool crouch = false;
     void Start()
@@ -22,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         horizontalMove =Input.GetAxisRaw("Horizontal") * runSpeed;
+        verticalMove = Input.GetAxisRaw("Vertical") * climbSpeed;
         anim.SetFloat("Speed", Mathf.Abs(horizontalMove));
         if(Input.GetButtonDown("Jump"))
         {
@@ -35,6 +39,14 @@ public class PlayerMovement : MonoBehaviour
         else if(Input.GetButtonUp("Crouch"))
         {
             crouch = false;
+        }
+        if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) )
+        {
+            climb = true;
+        }
+        else
+        {
+            climb = false;
         }
        
     }
@@ -50,5 +62,6 @@ public class PlayerMovement : MonoBehaviour
     {
         controller.Move(horizontalMove * Time.deltaTime, crouch, jump);
         jump = false;
+        controller.Climb(verticalMove * Time.deltaTime, climb);
     }
 }

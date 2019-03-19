@@ -7,14 +7,18 @@ public class PlayerController : MonoBehaviour
 {
 #pragma warning disable 0649
     [SerializeField] private float m_JumpForce = 400f;                          // Amount of force added when the player jumps.
+    [SerializeField] private float distanceToLedder;
     [Range(0, 1)] [SerializeField] private float m_CrouchSpeed = .36f;          // Amount of maxSpeed applied to crouching movement. 1 = 100%
     [Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;  // How much to smooth out the movement
     [SerializeField] private bool m_AirControl = false;                         // Whether or not a player can steer while jumping;
     [SerializeField] private LayerMask m_WhatIsGround;                          // A mask determining what is ground to the character
+    [SerializeField] private LayerMask whatIsLadder;
     [SerializeField] private Transform m_GroundCheck;                           // A position marking where to check if the player is grounded.
     [SerializeField] private Transform m_CeilingCheck;                          // A position marking where to check for ceilings
     [SerializeField] private Collider2D m_CrouchDisableCollider;                // A collider that will be disabled when crouching
 
+    private float inputVertical;
+    private bool isClimbing;
     private float score = 0;
     const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
     private bool m_Grounded;            // Whether or not the player is grounded.
@@ -62,6 +66,7 @@ public class PlayerController : MonoBehaviour
                     OnLandEvent.Invoke();
             }
         }
+
         
     }
 
@@ -134,6 +139,30 @@ public class PlayerController : MonoBehaviour
         {
             // Add a vertical force to the player.
             m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+        }
+    }
+    public void Climb(float inputVertical, bool wantToClimb)
+    {
+        RaycastHit2D ledderHitInfo = Physics2D.Raycast(transform.position, Vector2.up, distanceToLedder, whatIsLadder);
+        if (ledderHitInfo.collider != null)
+        {
+            if (wantToClimb)
+            {
+                isClimbing = true;
+            }
+        }
+        else
+        {
+            isClimbing = false;
+        }
+        if (isClimbing)
+        {
+            m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, inputVertical * 5f);
+            m_Rigidbody2D.gravityScale = 0;
+        }
+        else
+        {
+            m_Rigidbody2D.gravityScale = 3;
         }
     }
 
